@@ -39,12 +39,15 @@ clear; clc; close all;
 
 % Ensure current directory and subdirectories are on MATLAB path
 script_dir = fileparts(mfilename('fullpath'));
-addpath(script_dir);
+if ~isempty(script_dir)
+    addpath(script_dir);
+end
 
 fprintf('=======================================================================\n');
 fprintf('       BEARING FAULT DIAGNOSIS USING MOTOR VIBRATION SIGNALS           \n');
 fprintf('               Digital Signal Processing Implementation                \n');
 fprintf('=======================================================================\n\n');
+
 
 %% =========================================================================
 % 1. USER CONFIGURATION SECTION
@@ -58,8 +61,39 @@ fprintf('=======================================================================
 %   '118.mat' - Ball fault (12k DE, 0.007", 1797 RPM, 0 HP)
 %   '130.mat' - Outer Race fault (12k DE, 0.007", 1797 RPM, 0 HP)
 dataset_filename = '97.mat';
-dataset_folder   = fullfile(script_dir, '..', 'dataset');
-dataset_path     = fullfile(dataset_folder, dataset_filename);
+
+% Determine script directory robustly (handles Run Section, Editor, and Command Window execution)
+if isempty(script_dir)
+    script_dir = pwd;
+end
+
+% Automatically find dataset folder across candidate relative and project paths
+candidates = {
+    fullfile(script_dir, '..', 'dataset'), ...
+    fullfile(script_dir, 'dataset'), ...
+    fullfile(pwd, '..', 'dataset'), ...
+    fullfile(pwd, 'dataset'), ...
+    fullfile(pwd, 'dsp_project-main', 'dataset')
+};
+
+dataset_folder = '';
+for k = 1:length(candidates)
+    if isfile(fullfile(candidates{k}, dataset_filename))
+        dataset_folder = candidates{k};
+        break;
+    end
+end
+
+if isempty(dataset_folder)
+    path_hit = which(dataset_filename);
+    if ~isempty(path_hit)
+        dataset_folder = fileparts(path_hit);
+    else
+        dataset_folder = fullfile(script_dir, '..', 'dataset');
+    end
+end
+
+dataset_path = fullfile(dataset_folder, dataset_filename);
 
 % --- Sampling Frequency Configuration ---
 % For 48k CWRU recordings, set Fs = 48000; for 12k recordings, set Fs = 12000.
