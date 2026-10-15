@@ -76,9 +76,10 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     % ---------------------------------------------------------------------
     fig_handles(1) = figure('Name', 'Fig 1: Raw Vibration Signal', 'Color', 'w', 'Position', [100, 100, 800, 420]);
     plot(t_raw(1:display_samples_raw), raw_signal(1:display_samples_raw), 'Color', col_raw, 'LineWidth', 1.0);
-    title('Raw Vibration Signal (Motor Accelerometer)', 'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Time (s)', 'FontSize', 11);
-    ylabel('Acceleration Amplitude (g)', 'FontSize', 11);
+    title('Raw Vibration Signal (Motor Accelerometer)', 'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Time (s)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Acceleration Amplitude (g)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
     grid on; box on;
     xlim([0, t_raw(display_samples_raw)]);
 
@@ -87,9 +88,10 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     % ---------------------------------------------------------------------
     fig_handles(2) = figure('Name', 'Fig 2: Filtered Signal', 'Color', 'w', 'Position', [120, 120, 800, 420]);
     plot(t_filt(1:display_samples_filt), filtered_signal(1:display_samples_filt), 'Color', col_filt, 'LineWidth', 1.0);
-    title('Pre-Processed Signal (DC Removed + Zero-Phase Butterworth Band-Pass)', 'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Time (s)', 'FontSize', 11);
-    ylabel('Filtered Amplitude (g)', 'FontSize', 11);
+    title('Pre-Processed Signal (DC Removed + Zero-Phase Butterworth Band-Pass)', 'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Time (s)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Filtered Amplitude (g)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
     grid on; box on;
     xlim([0, t_filt(display_samples_filt)]);
 
@@ -107,10 +109,11 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     plot(t_seg * 1000, seg_windowed, 'Color', col_win, 'LineWidth', 1.3, 'DisplayName', 'Hanning-Windowed Segment');
     plot(t_seg * 1000, max(abs(seg_signal)) * w_hann, '--k', 'LineWidth', 0.8, 'DisplayName', 'Hanning Envelope w(n)');
     hold off;
-    title('2048-Sample Segment with Hanning Window (Leakage Suppression)', 'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Segment Time (ms)', 'FontSize', 11);
-    ylabel('Amplitude (g)', 'FontSize', 11);
-    legend('Location', 'northeast');
+    title('2048-Sample Segment with Hanning Window (Leakage Suppression)', 'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Segment Time (ms)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Amplitude (g)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
+    legend('Location', 'northeast', 'TextColor', 'k', 'Color', 'w', 'EdgeColor', [0.7, 0.7, 0.7]);
     grid on; box on;
 
     % ---------------------------------------------------------------------
@@ -120,9 +123,10 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     fft_idx = (f_fft <= plot_cfg.max_freq_fft);
     plot(f_fft(fft_idx), mag_fft(fft_idx), 'Color', col_fft, 'LineWidth', 1.1);
     title(sprintf('Single-Sided Scaled FFT Magnitude Spectrum (0 - %.0f Hz)', plot_cfg.max_freq_fft), ...
-        'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Frequency (Hz)', 'FontSize', 11);
-    ylabel('Magnitude Amplitude (g)', 'FontSize', 11);
+        'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Frequency (Hz)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Magnitude Amplitude (g)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
     grid on; box on;
     xlim([0, plot_cfg.max_freq_fft]);
 
@@ -134,9 +138,10 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     % Display in dB/Hz for dynamic range visibility
     pxx_db = 10 * log10(max(pxx(psd_idx), 1e-18));
     plot(f_psd(psd_idx), pxx_db, 'Color', col_psd, 'LineWidth', 1.2);
-    title('Power Spectral Density Estimate (Welch Modified Periodogram)', 'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Frequency (Hz)', 'FontSize', 11);
-    ylabel('Power Density (dB / Hz)', 'FontSize', 11);
+    title('Power Spectral Density Estimate (Welch Modified Periodogram)', 'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Frequency (Hz)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Power Density (dB / Hz)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
     grid on; box on;
     xlim([0, plot_cfg.max_freq_fft]);
 
@@ -151,10 +156,11 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     hold on;
     plot(t_disp_env, env_sig(1:N_disp_env), 'Color', col_env, 'LineWidth', 1.3, 'DisplayName', 'Demodulated Envelope |z(t)|');
     hold off;
-    title('Hilbert Demodulated Envelope Signal A(t) = |x(t) + j*H\{x(t)\}|', 'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Time (s)', 'FontSize', 11);
-    ylabel('Amplitude (g)', 'FontSize', 11);
-    legend('Location', 'northeast');
+    title('Hilbert Demodulated Envelope Signal A(t) = |x(t) + j*H\{x(t)\}|', 'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Time (s)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Amplitude (g)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
+    legend('Location', 'northeast', 'TextColor', 'k', 'Color', 'w', 'EdgeColor', [0.7, 0.7, 0.7]);
     grid on; box on;
     xlim([0, t_disp_env(end)]);
 
@@ -165,9 +171,10 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     env_idx = (f_env <= plot_cfg.max_freq_env);
     plot(f_env(env_idx), env_spec(env_idx), 'Color', col_spec, 'LineWidth', 1.2);
     title(sprintf('Demodulated Envelope Spectrum (Baseband: 0 - %.0f Hz)', plot_cfg.max_freq_env), ...
-        'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Modulation Frequency (Hz)', 'FontSize', 11);
-    ylabel('Envelope Magnitude (g)', 'FontSize', 11);
+        'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Modulation Frequency (Hz)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Envelope Magnitude (g)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
     grid on; box on;
     xlim([0, plot_cfg.max_freq_env]);
 
@@ -207,13 +214,14 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     end
 
     hold off;
-    title('Envelope Spectrum with Bearing Characteristic Fault Frequencies', 'FontSize', 12, 'FontWeight', 'bold');
-    xlabel('Frequency (Hz)', 'FontSize', 11);
-    ylabel('Envelope Magnitude (g)', 'FontSize', 11);
+    title('Envelope Spectrum with Bearing Characteristic Fault Frequencies', 'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
+    xlabel('Frequency (Hz)', 'FontSize', 11, 'Color', 'k');
+    ylabel('Envelope Magnitude (g)', 'FontSize', 11, 'Color', 'k');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
     ylim([0, y_max]);
     xlim([0, plot_cfg.max_freq_env]);
     grid on; box on;
-    legend('Location', 'northeast');
+    legend('Location', 'northeast', 'TextColor', 'k', 'Color', 'w', 'EdgeColor', [0.7, 0.7, 0.7]);
 
     % ---------------------------------------------------------------------
     % FIGURE 9: Final Diagnostic Result & Summary Dashboard
@@ -238,15 +246,16 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     b.CData(5, :) = [0.15, 0.65, 0.35]; % Green for healthy
 
     set(gca, 'XTick', 1:5, 'XTickLabel', {'BPFO', 'BPFI', 'BSF', 'FTF', 'Healthy'}, 'FontSize', 10);
-    ylabel('Evidence Score (0 - 100)', 'FontSize', 11);
-    title('DSP Fault Evidence Scores', 'FontSize', 12, 'FontWeight', 'bold');
+    set(gca, 'Color', 'w', 'XColor', 'k', 'YColor', 'k');
+    ylabel('Evidence Score (0 - 100)', 'FontSize', 11, 'Color', 'k');
+    title('DSP Fault Evidence Scores', 'FontSize', 12, 'FontWeight', 'bold', 'Color', 'k');
     ylim([0, 110]);
     grid on;
 
     % Annotate bar values
     for bi = 1:5
         text(bi, scores(bi) + 3, sprintf('%.1f', scores(bi)), ...
-            'HorizontalAlignment', 'center', 'FontWeight', 'bold', 'FontSize', 9);
+            'HorizontalAlignment', 'center', 'FontWeight', 'bold', 'FontSize', 9, 'Color', 'k');
     end
 
     % Subplot 2: Diagnostic Verdict Summary Card
@@ -273,24 +282,25 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
     cf = diagnosis_report.CharFreqs;
 
     y_pos = 0.62;
-    text(0.05, y_pos, 'Operating Parameters:', 'FontSize', 10, 'FontWeight', 'bold');
+    text(0.05, y_pos, 'Operating Parameters:', 'FontSize', 10, 'FontWeight', 'bold', 'Color', 'k');
     y_pos = y_pos - 0.05;
-    text(0.08, y_pos, sprintf('Shaft Speed: %.1f RPM (fr = %.2f Hz) | Fs: %d Hz', cf.rpm, cf.fr, Fs), 'FontSize', 9);
+    text(0.08, y_pos, sprintf('Shaft Speed: %.1f RPM (fr = %.2f Hz) | Fs: %d Hz', cf.rpm, cf.fr, Fs), ...
+        'FontSize', 9, 'Color', [0.15, 0.15, 0.15]);
 
     y_pos = y_pos - 0.07;
-    text(0.05, y_pos, 'Time-Domain Indicators:', 'FontSize', 10, 'FontWeight', 'bold');
+    text(0.05, y_pos, 'Time-Domain Indicators:', 'FontSize', 10, 'FontWeight', 'bold', 'Color', 'k');
     y_pos = y_pos - 0.05;
     text(0.08, y_pos, sprintf('RMS: %.3f g  |  Kurtosis: %.2f  |  Crest Factor: %.2f', ...
-        tf.RMS, tf.Kurtosis, tf.CrestFactor), 'FontSize', 9);
+        tf.RMS, tf.Kurtosis, tf.CrestFactor), 'FontSize', 9, 'Color', [0.15, 0.15, 0.15]);
 
     y_pos = y_pos - 0.07;
-    text(0.05, y_pos, 'Diagnostic Confidence & Severity:', 'FontSize', 10, 'FontWeight', 'bold');
+    text(0.05, y_pos, 'Diagnostic Confidence & Severity:', 'FontSize', 10, 'FontWeight', 'bold', 'Color', 'k');
     y_pos = y_pos - 0.05;
     text(0.08, y_pos, sprintf('Confidence: %.1f%%  |  Severity: %s', ...
-        diagnosis_report.ConfidencePercent, diagnosis_report.Severity), 'FontSize', 9);
+        diagnosis_report.ConfidencePercent, diagnosis_report.Severity), 'FontSize', 9, 'Color', [0.15, 0.15, 0.15]);
 
     y_pos = y_pos - 0.07;
-    text(0.05, y_pos, 'Key DSP Physical Evidence:', 'FontSize', 10, 'FontWeight', 'bold');
+    text(0.05, y_pos, 'Key DSP Physical Evidence:', 'FontSize', 10, 'FontWeight', 'bold', 'Color', 'k');
     reasons = diagnosis_report.SupportingEvidence;
     num_reasons = min(3, length(reasons));
     for ri = 1:num_reasons
@@ -298,7 +308,7 @@ function fig_handles = plot_results(raw_signal, filtered_signal, seg_signal, ...
         % Truncate long lines if necessary
         msg = reasons{ri};
         if length(msg) > 65, msg = [msg(1:62), '...']; end
-        text(0.08, y_pos, sprintf('- %s', msg), 'FontSize', 8);
+        text(0.08, y_pos, sprintf('- %s', msg), 'FontSize', 8, 'Color', [0.15, 0.15, 0.15]);
     end
 end
 

@@ -1,41 +1,8 @@
-%% =========================================================================
-% BEARING FAULT DIAGNOSIS USING MOTOR VIBRATION SIGNALS
-% Complete DSP-Based & Rule-Based Fault Diagnosis Pipeline (Zero Machine Learning)
-%
-% Theoretical Architecture:
-%   CWRU Dataset File (.mat)
-%            ↓
-%   Signal Loading & Sensor Channel Inspection (DE / FE / BA)
-%            ↓
-%   Sampling Rate Configuration (48 kHz / 12 kHz)
-%            ↓
-%   Pre-Processing (DC Removal + Zero-Phase Butterworth Bandpass Filter)
-%            ↓
-%   Amplitude Normalization (Z-Score / Physical Unit Preservation)
-%            ↓
-%   Fixed-Length Segmentation (2048 Samples, 50% Overlap)
-%            ↓
-%   Hanning Windowing (Spectral Leakage Suppression)
-%            ↓
-%   Parallel DSP Feature Extraction:
-%      ├── Time-Domain Statistical Moments (RMS, Kurtosis, Crest Factor, ...)
-%      ├── Single-Sided Scaled FFT Analysis
-%      ├── Welch Power Spectral Density (PSD)
-%      ├── Hilbert Demodulation (Analytic Signal & Envelope Spectrum)
-%      └── Bearing Kinematic Characteristic Frequencies (FTF, BPFO, BPFI, BSF)
-%            ↓
-%   Harmonic Comb & Adaptive Peak Detection (Findpeaks with Micro-Slip Tolerance)
-%            ↓
-%   Multi-Factor Rule-Based DSP Evidence Engine
-%            ↓
-%   Final Diagnostic Verdict:
-%      [ Healthy Bearing / Inner Race Fault / Outer Race Fault / Ball Fault ]
-%
-% Author: DSP Project Team
-% Project: Bearing Fault Diagnosis Using Motor Vibration Signals
-%% =========================================================================
 
-clear; clc; close all;
+
+clear;
+clc;
+close all;
 
 % Ensure current directory and subdirectories are on MATLAB path
 script_dir = fileparts(mfilename('fullpath'));
@@ -43,10 +10,14 @@ if ~isempty(script_dir)
     addpath(script_dir);
 end
 
-fprintf('=======================================================================\n');
-fprintf('       BEARING FAULT DIAGNOSIS USING MOTOR VIBRATION SIGNALS           \n');
-fprintf('               Digital Signal Processing Implementation                \n');
-fprintf('=======================================================================\n\n');
+fprintf(
+    '=======================================================================\n');
+fprintf(
+    '       BEARING FAULT DIAGNOSIS USING MOTOR VIBRATION SIGNALS           \n');
+fprintf(
+    '               Digital Signal Processing Implementation                \n');
+fprintf(
+    '=======================================================================\n\n');
 
 
 %% =========================================================================
